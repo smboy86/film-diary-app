@@ -29,6 +29,8 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
-    }
+    },
+    "description": "필름일기장 앱입니다",
+    "githubUrl": "https://github.com/smboy86/film-diary-app"
   }
 }
