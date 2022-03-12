@@ -1,4 +1,4 @@
-import { Text } from 'react-native-elements/dist/Text';
+import { Button, Text } from 'react-native-elements';
 import { useSetRecoilState } from 'recoil';
 import { Box, BoxPressable } from '../components/basic';
 
@@ -13,6 +13,7 @@ export default function LoginScreen({
   return (
     <Box full center>
       <Text>로그인 Screen</Text>
+      <Button></Button>
       <BoxPressable
         onPress={() => setAuth({ isLogin: true })}
         border

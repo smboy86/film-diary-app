@@ -13,6 +13,14 @@ import { RecoilRoot } from 'recoil';
 // 선언한 스타일이 Object면 인라인스타일도 Object여야 병합
 // 하나는 Array, 다른 하나는 Obejct면 스타일 병합 되지 않음
 const ElementsTheme = {
+  Text: {
+    style: {
+      fontFamily: 'BodoniSvtyTwoITCTT-Bold',
+      color: '#000',
+      fontWeight: 'bold',
+      fontSize: 20,
+    },
+  },
   Button: {
     raised: true,
     titleStyle: {
