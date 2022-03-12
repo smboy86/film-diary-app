@@ -1,7 +1,7 @@
+import { Text } from 'react-native-elements/dist/Text';
 import { useSetRecoilState } from 'recoil';
 import { Box, BoxPressable } from '../components/basic';
 
-import { Text } from '../components/Themed';
 import authAtomState from '../recoil/auth/authAtomState';
 import { RootLoginStackScreenProps } from '../types';
 

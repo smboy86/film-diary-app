@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button, CheckBox, Icon, ThemeProvider } from 'react-native-elements';
+import { Text } from 'react-native-elements/dist/Text';
 
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({
