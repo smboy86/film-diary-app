@@ -1,14 +1,19 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   CheckFilmScreen,
   HistoryScreen,
   HomeScreen,
+  ModalScreen,
+  NotFoundScreen,
   SettingNotiScreen,
 } from '../screens';
+import { RootStackParamList } from '../types';
 
+const MainStack = createNativeStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 
-export default function DrawerNavigator() {
+function DrawerNavigator() {
   return (
     <Drawer.Navigator
       initialRouteName='Home'
@@ -47,5 +52,26 @@ export default function DrawerNavigator() {
         }}
       />
     </Drawer.Navigator>
+  );
+}
+
+// Main
+export default function MainNavigator() {
+  return (
+    <MainStack.Navigator>
+      <MainStack.Screen
+        name='Root'
+        component={DrawerNavigator}
+        options={{ headerShown: false }}
+      />
+      <MainStack.Screen
+        name='NotFound'
+        component={NotFoundScreen}
+        options={{ title: '잘못된 화면입니다.' }}
+      />
+      <MainStack.Group screenOptions={{ presentation: 'modal' }}>
+        <MainStack.Screen name='Modal' component={ModalScreen} />
+      </MainStack.Group>
+    </MainStack.Navigator>
   );
 }

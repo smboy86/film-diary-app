@@ -7,6 +7,7 @@ import useColorScheme from './hooks/useColorScheme';
 import RootNavigator from './navigation/RootNavigator';
 
 import 'react-native-gesture-handler';
+import { RecoilRoot } from 'recoil';
 
 // 유의사항
 // 선언한 스타일이 Object면 인라인스타일도 Object여야 병합
@@ -32,11 +33,13 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <ThemeProvider theme={ElementsTheme}>
-          {/* <Navigation colorScheme={colorScheme} /> */}
-          <RootNavigator />
-          <StatusBar />
-        </ThemeProvider>
+        <RecoilRoot>
+          <ThemeProvider theme={ElementsTheme}>
+            {/* <Navigation colorScheme={colorScheme} /> */}
+            <RootNavigator />
+            <StatusBar />
+          </ThemeProvider>
+        </RecoilRoot>
       </SafeAreaProvider>
     );
   }

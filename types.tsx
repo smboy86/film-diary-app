@@ -17,10 +17,28 @@ declare global {
 }
 
 ///
-// 1. navigation 1차 구조
-// 1-1. Root- Stack
+// navigation 구조
+/**
+ *  Login not  ----- AuthNavigator[Stack]
+ *               ㄴ-- MainNavigator[Stack - Draw, Stack, Stack] ----- NotFound[Screen]
+ *                                                               ㄴ-- Modal[Screen]
+ *                                                               ㄴ-- 메인화면[DrawStack]
+ *                                                                      ㄴ-- 홈 [Screen]
+ *                                                                      ㄴ-- etc... [Screens ...]
+ *
+ *
+ */
+
+// 1-1. Root
 export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootDrawParamList> | undefined;
+  Root: NavigatorScreenParams<RootMainPmarmList> | undefined;
+  Modal: undefined;
+  NotFound: undefined;
+};
+
+// 1-2. Root - Stack
+export type RootAuthStackParamList = {
+  Root: NavigatorScreenParams<RootMainPmarmList> | undefined;
   Modal: undefined;
   NotFound: undefined;
 };
@@ -40,14 +58,20 @@ export type RootLoginStackScreenProps<Screen extends keyof RootLoginParamList> =
   NativeStackScreenProps<RootLoginParamList, Screen>;
 
 // 1-3. Root - Draw
-export type RootDrawParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+export type RootMainPmarmList = {
+  Root: undefined;
+  NotFound: undefined;
+  Modal: undefined;
+};
+
+export type RootAuthParamList = {
+  Login: undefined;
+  Join: undefined;
 };
 
 // 1-3-1. Draw
-export type RootDrawScreenProps<Screen extends keyof RootDrawParamList> =
+export type RootDrawScreenProps<Screen extends keyof RootMainPmarmList> =
   CompositeScreenProps<
-    BottomTabScreenProps<RootDrawParamList, Screen>,
+    BottomTabScreenProps<RootMainPmarmList, Screen>,
     NativeStackScreenProps<RootStackParamList>
   >;
