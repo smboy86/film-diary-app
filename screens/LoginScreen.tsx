@@ -2,13 +2,13 @@ import { useSetRecoilState } from 'recoil';
 import { Box, BoxPressable } from '../components/basic';
 
 import { Text } from '../components/Themed';
-import authAtom from '../recoil/common/atom';
+import authAtomState from '../recoil/auth/authAtomState';
 import { RootLoginStackScreenProps } from '../types';
 
 export default function LoginScreen({
   navigation,
 }: RootLoginStackScreenProps<'Login'>) {
-  const setAuth = useSetRecoilState(authAtom);
+  const setAuth = useSetRecoilState(authAtomState);
 
   return (
     <Box full center>
