@@ -18,18 +18,17 @@ function DrawerNavigator() {
     <Drawer.Navigator
       initialRouteName='Home'
       screenOptions={{
+        title: '',
+        drawerActiveTintColor: '#272727',
+        drawerItemStyle: {
+          borderColor: '#000',
+        },
         drawerStyle: {
           backgroundColor: '#e9e9e9',
           width: 240,
         },
       }}>
-      <Drawer.Screen
-        name='Home'
-        component={HomeScreen}
-        options={{
-          title: '홈',
-        }}
-      />
+      <Drawer.Screen name='Home' component={HomeScreen} options={{}} />
       <Drawer.Screen
         name='History'
         component={HistoryScreen}
@@ -60,7 +59,7 @@ export default function MainNavigator() {
   return (
     <MainStack.Navigator>
       <MainStack.Screen
-        name='Root'
+        name='MainDraw'
         component={DrawerNavigator}
         options={{ headerShown: false }}
       />

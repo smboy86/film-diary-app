@@ -7,6 +7,9 @@ module.exports = function (api) {
         'module-resolver',
         {
           extensions: ['.tsx', '.ts', '.js', '.json'],
+          alias: {
+            '@native-base/icons': '@native-base/icons/lib',
+          },
         },
       ],
       'react-native-reanimated/plugin', // PUT IT HERE

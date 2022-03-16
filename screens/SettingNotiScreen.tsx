@@ -1,4 +1,4 @@
-import { Text } from 'react-native-elements';
+import { Text } from 'native-base';
 import { Box } from '../components/basic';
 
 import { RootLoginStackScreenProps } from '../types';

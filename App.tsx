@@ -8,29 +8,90 @@ import RootNavigator from './navigation/RootNavigator';
 
 import 'react-native-gesture-handler';
 import { RecoilRoot } from 'recoil';
+import { extendTheme, NativeBaseProvider } from 'native-base';
 
 // 유의사항
 // 선언한 스타일이 Object면 인라인스타일도 Object여야 병합
 // 하나는 Array, 다른 하나는 Obejct면 스타일 병합 되지 않음
+const DefaultColorTheme = {
+  border: '#f4f4f4',
+};
+
 const ElementsTheme = {
   Text: {
     style: {
-      fontFamily: 'BodoniSvtyTwoITCTT-Bold',
-      color: '#000',
-      fontWeight: 'bold',
-      fontSize: 20,
+      fontFamily: 'Apple SD Gothic Neo',
+      color: '#262626',
+      fontSize: 16,
     },
   },
   Button: {
     raised: true,
+    type: 'outline',
     titleStyle: {
-      color: 'red',
+      color: '#262626',
+      fontSize: 18,
+      fontWeight: 'bold',
     },
+    buttonStyle: {
+      borderColor: DefaultColorTheme.border,
+      backgroundColor: '#eeeeee',
+    },
+    loadingProps: { size: 'small', color: '#000' },
     containerStyle: {
-      padding: 20,
+      height: 38,
     },
   },
 };
+
+const nativeBaseTheme = extendTheme({
+  // colors: {
+  //   // Add new color
+  //   primary: {
+  //     50: '#E3F2F9',
+  //     100: '#C5E4F3',
+  //     200: '#A2D4EC',
+  //     300: '#7AC1E4',
+  //     400: '#47A9DA',
+  //     500: '#0088CC',
+  //     600: '#007AB8',
+  //     700: '#006BA1',
+  //     800: '#005885',
+  //     900: '#003F5E',
+  //   },
+  //   // Redefinig only one shade, rest of the color will remain same.
+  //   amber: {
+  //     400: '#d97706',
+  //   },
+  // },
+  // 22.03.15 devpoi - custom Theme
+  components: {
+    Button: {
+      baseStyle: {
+        _text: {
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      },
+      defaultProps: {
+        colorScheme: 'light',
+        size: 'lg',
+      },
+    },
+    Input: {
+      baseStyle: {
+        color: '#000',
+        borderColor: '#000',
+        _focus: {
+          borderColor: '#000',
+        },
+      },
+      defaultProps: {
+        variant: 'underlined',
+      },
+    },
+  },
+});
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -42,11 +103,10 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <RecoilRoot>
-          <ThemeProvider theme={ElementsTheme}>
-            {/* <Navigation colorScheme={colorScheme} /> */}
+          <NativeBaseProvider theme={nativeBaseTheme}>
             <RootNavigator />
             <StatusBar />
-          </ThemeProvider>
+          </NativeBaseProvider>
         </RecoilRoot>
       </SafeAreaProvider>
     );

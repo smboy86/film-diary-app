@@ -9,7 +9,9 @@ interface IProps extends ViewProps {
   jCenter?: boolean;
   aCenter?: boolean;
   right?: boolean;
+  jStart?: boolean;
   jEnd?: boolean;
+  aStart?: boolean;
   aEnd?: boolean;
   space?: boolean;
   width?: number;
@@ -45,7 +47,9 @@ const Box: React.FunctionComponent<IProps> = ({
   jCenter,
   aCenter,
   right,
+  jStart,
   jEnd,
+  aStart,
   aEnd,
   space,
   width,
@@ -79,7 +83,9 @@ const Box: React.FunctionComponent<IProps> = ({
     center && styles().center,
     jCenter && styles().jCenter,
     aCenter && styles().aCenter,
+    jStart && styles().jStart,
     jEnd && styles().jEnd,
+    aStart && styles().aStart,
     aEnd && styles().aEnd,
     space && styles().space,
     width && { width }, // 이런 형식에서 typescript 구성 찾아야 할듯
@@ -135,8 +141,14 @@ const styles = () =>
     aCenter: {
       alignItems: 'center',
     },
+    jStart: {
+      justifyContent: 'flex-start',
+    },
     jEnd: {
       justifyContent: 'flex-end',
+    },
+    aStart: {
+      alignItems: 'flex-start',
     },
     aEnd: {
       alignItems: 'flex-end',

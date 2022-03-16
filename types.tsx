@@ -3,18 +3,16 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { DrawerScreenProps } from '@react-navigation/drawer';
 import {
   CompositeScreenProps,
   NavigatorScreenParams,
+  RouteProp,
 } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
-}
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 
 ///
 // navigation 구조
@@ -29,49 +27,59 @@ declare global {
  *
  */
 
-// 1-1. Root
-export type RootStackParamList = {
-  Root: NavigatorScreenParams<RootMainPmarmList> | undefined;
-  Modal: undefined;
-  NotFound: undefined;
-};
-
-// 1-2. Root - Stack
+// 1-1. Root - Auth(Stack)
 export type RootAuthStackParamList = {
-  Root: NavigatorScreenParams<RootMainPmarmList> | undefined;
-  Modal: undefined;
-  NotFound: undefined;
-};
-
-// 1-1-1. Stack
-export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
-  NativeStackScreenProps<RootStackParamList, Screen>;
-
-// 1-2. Root - Login
-export type RootLoginParamList = {
   Login: undefined;
   Join: undefined;
 };
 
-// 1-2-1. Stack
-export type RootLoginStackScreenProps<Screen extends keyof RootLoginParamList> =
-  NativeStackScreenProps<RootLoginParamList, Screen>;
-
-// 1-3. Root - Draw
-export type RootMainPmarmList = {
-  Root: undefined;
-  NotFound: undefined;
+// 1-2. Root - Main(Draw + Stack)
+export type RootMainStackParamList = {
+  MainDraw: NavigatorScreenParams<MainDrawParamList> | undefined;
   Modal: undefined;
+  NotFound: undefined;
 };
 
-export type RootAuthParamList = {
-  Login: undefined;
-  Join: undefined;
+// 1-2-1 Draw
+export type MainDrawParamList = {
+  Home: undefined;
+  History: {
+    id: string;
+    uid: string;
+  };
+  CheckFilm: undefined;
+  SettingNoti: undefined;
 };
 
-// 1-3-1. Draw
-export type RootDrawScreenProps<Screen extends keyof RootMainPmarmList> =
+// useNavigation 만 쓴다고 하면 필요 없는건가?
+// ScreenProp vs RouteProp vs NavigationProp 뭐가 다른가?
+// RouteProp -> useRoute 할때 쓰임
+// NavigationProp -> useNavigation 에 쓰임
+// // 2-1. Root - AuthStack Prop(ScreenProp)
+export type RootAuthStackScreenProps<
+  Screen extends keyof RootAuthStackParamList
+> = NativeStackScreenProps<RootAuthStackParamList, Screen>;
+
+// 2-2-1. Root - Main Prop (ScreenProp)
+export type RootMainScreenProps<Screen extends keyof RootMainStackParamList> =
   CompositeScreenProps<
-    BottomTabScreenProps<RootMainPmarmList, Screen>,
-    NativeStackScreenProps<RootStackParamList>
+    DrawerScreenProps<RootMainStackParamList, Screen>,
+    NativeStackScreenProps<RootMainStackParamList>
   >;
+
+// 2-2-2. Root - Draw (ScreenProp)
+// export type MainDrawScreenProps<Screen extends keyof MainDrawParamList> =
+//   NativeStackScreenProps<MainDrawParamList, Screen>;
+// 2-2-2. Root - Draw (NavigationProp)
+export type MainDrawStackNavigateProps<Screen extends keyof MainDrawParamList> =
+  NativeStackNavigationProp<MainDrawParamList, Screen>;
+// 2-2-3. Root - Draw (RouteProp)
+export type MainDrawRouteProps<Screen extends keyof MainDrawParamList> =
+  RouteProp<MainDrawParamList, Screen>;
+
+// 999. fin MainStack for useNavigation
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootMainStackParamList {}
+  }
+}
