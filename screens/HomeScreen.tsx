@@ -1,39 +1,24 @@
 import { Feather, Fontisto } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import {
-  Button,
-  Center,
-  Container,
-  Image,
-  ScrollView,
-  Text,
-} from 'native-base';
+import { Image, ScrollView, Text } from 'native-base';
 import { useEffect, useLayoutEffect } from 'react';
 import { Alert } from 'react-native';
 import { Box, BoxPressable } from '../components/basic';
-import { MainDrawStackNavigateProps } from '../types';
 import Images from '../constants/Images';
 import Layout from '../constants/Layout';
 
-const testImg = require('../assets/images/imgA.png');
-
 export default function HomeScreen() {
-  const navigation = useNavigation<MainDrawStackNavigateProps<'Home'>>();
+  const navigation = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: (props) => (
-        <BoxPressable onPress={() => Alert.alert('', '새필름 만들기')} pr={12}>
+      headerRight: (props: any) => (
+        <BoxPressable onPress={() => navigation.navigate('PostDairy')} pr={12}>
           <Feather name='film' size={24} color={props.tintColor} />
         </BoxPressable>
       ),
     });
   }, [navigation]);
-
-  // const route = useRoute<MainDrawScreenProps<'History'>>();
-
-  // useEffect(() => {
-  // }, []);
 
   return (
     <ScrollView
@@ -50,8 +35,6 @@ export default function HomeScreen() {
         <Box wFull pb={12}>
           <Text fontSize={18}>1번 필름</Text>
         </Box>
-
-        {/* <Image source={Images.imgA} width={100} height={200} alt='img' /> */}
         <Image
           source={Images.imgA}
           width={Layout.screen.width * 0.924}
@@ -70,8 +53,6 @@ export default function HomeScreen() {
         <Box wFull pb={12}>
           <Text fontSize={18}>2번 필름</Text>
         </Box>
-
-        {/* <Image source={Images.imgA} width={100} height={200} alt='img' /> */}
         <Image
           source={Images.imgB}
           width={Layout.screen.width * 0.924}

@@ -7,11 +7,8 @@ import { Box, BoxPressable } from '../components/basic';
 import { pxToDp } from '../constants/Layout';
 
 import authAtomState from '../recoil/auth/authAtomState';
-import { RootLoginStackScreenProps } from '../types';
 
-export default function LoginScreen({
-  navigation,
-}: RootLoginStackScreenProps<'Login'>) {
+export default function LoginScreen() {
   const setAuth = useSetRecoilState(authAtomState);
 
   return (

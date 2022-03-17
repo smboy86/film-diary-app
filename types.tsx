@@ -3,8 +3,12 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { DrawerScreenProps } from '@react-navigation/drawer';
 import {
+  DrawerNavigationProp,
+  DrawerScreenProps,
+} from '@react-navigation/drawer';
+import {
+  CompositeNavigationProp,
   CompositeScreenProps,
   NavigatorScreenParams,
   RouteProp,
@@ -35,9 +39,13 @@ export type RootAuthStackParamList = {
 
 // 1-2. Root - Main(Draw + Stack)
 export type RootMainStackParamList = {
-  MainDraw: NavigatorScreenParams<MainDrawParamList> | undefined;
+  // 1. Common
   Modal: undefined;
   NotFound: undefined;
+  // 2. Main
+  MainDraw: NavigatorScreenParams<MainDrawParamList> | undefined;
+  // 3. Detail Screen
+  PostDairy: undefined;
 };
 
 // 1-2-1 Draw
@@ -65,6 +73,12 @@ export type RootMainScreenProps<Screen extends keyof RootMainStackParamList> =
   CompositeScreenProps<
     DrawerScreenProps<RootMainStackParamList, Screen>,
     NativeStackScreenProps<RootMainStackParamList>
+  >;
+// Root (NavigationProp) :: 씀
+export type RootMainNavigateProps<Screen extends keyof RootMainStackParamList> =
+  CompositeNavigationProp<
+    DrawerNavigationProp<RootMainStackParamList, Screen>,
+    NativeStackNavigationProp<RootMainStackParamList>
   >;
 
 // 2-2-2. Root - Draw (ScreenProp)

@@ -8,9 +8,10 @@ import {
   NotFoundScreen,
   SettingNotiScreen,
 } from '../screens';
-import { RootStackParamList } from '../types';
+import PostDairyScreen from '../screens/PostDairyScreen';
+import { RootMainStackParamList } from '../types';
 
-const MainStack = createNativeStackNavigator<RootStackParamList>();
+const MainStack = createNativeStackNavigator<RootMainStackParamList>();
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
@@ -21,12 +22,13 @@ function DrawerNavigator() {
         title: '',
         drawerActiveTintColor: '#272727',
         drawerItemStyle: {
-          borderColor: '#000',
+          borderColor: '#272727',
         },
         drawerStyle: {
           backgroundColor: '#e9e9e9',
           width: 240,
         },
+        headerTintColor: '#272727',
       }}>
       <Drawer.Screen
         name='Home'
@@ -63,12 +65,13 @@ function DrawerNavigator() {
 // Main
 export default function MainNavigator() {
   return (
-    <MainStack.Navigator>
-      <MainStack.Screen
-        name='MainDraw'
-        component={DrawerNavigator}
-        options={{ headerShown: false }}
-      />
+    <MainStack.Navigator
+      initialRouteName='MainDraw'
+      screenOptions={{
+        headerBackTitle: '',
+        headerTintColor: '#000',
+      }}>
+      {/* 1. common Require */}
       <MainStack.Screen
         name='NotFound'
         component={NotFoundScreen}
@@ -76,6 +79,21 @@ export default function MainNavigator() {
       />
       <MainStack.Group screenOptions={{ presentation: 'modal' }}>
         <MainStack.Screen name='Modal' component={ModalScreen} />
+        {/* <MainStack.Screen name='Web' component={WebViewScreen} /> */}
+      </MainStack.Group>
+      {/* 2. Main Draw */}
+      <MainStack.Screen
+        name='MainDraw'
+        component={DrawerNavigator}
+        options={{ headerShown: false }}
+      />
+      {/* 3. Detail */}
+      <MainStack.Group
+        screenOptions={{
+          title: '',
+          presentation: 'card',
+        }}>
+        <MainStack.Screen name='PostDairy' component={PostDairyScreen} />
       </MainStack.Group>
     </MainStack.Navigator>
   );
