@@ -1,1 +1,1 @@
-export { default as ImgA } from './ImgA.svg';
+export { default as ImgAF } from './ImgA.svg';
