@@ -41,11 +41,16 @@ export type RootAuthStackParamList = {
 export type RootMainStackParamList = {
   // 1. Common
   Modal: undefined;
+  ModalLoading: undefined;
+  ModalLoadingPost: {
+    nextScreen: string;
+  };
   NotFound: undefined;
   // 2. Main
   MainDraw: NavigatorScreenParams<MainDrawParamList> | undefined;
   // 3. Detail Screen
   PostDairy: undefined;
+  NewFilm: undefined;
 };
 
 // 1-2-1 Draw
@@ -57,6 +62,7 @@ export type MainDrawParamList = {
   };
   CheckFilm: undefined;
   SettingNoti: undefined;
+  SettingWriter: undefined;
 };
 
 // useNavigation 만 쓴다고 하면 필요 없는건가?

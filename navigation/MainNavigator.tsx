@@ -1,5 +1,9 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { LOADING_TIME } from '../constants/Options';
+import commonAtomState from '../recoil/common/commonAtomState';
 import {
   CheckFilmScreen,
   HistoryScreen,
@@ -8,7 +12,12 @@ import {
   NotFoundScreen,
   SettingNotiScreen,
 } from '../screens';
+import ModalLoadingScreen from '../screens/ModalLoadingScreen';
+import ModalMainLoadingScreen from '../screens/ModalMainLoadingScreen';
+import NewFilmScreen from '../screens/NewFilmScreen';
+import NotiSettingScreen from '../screens/NotiSettingScreen';
 import PostDairyScreen from '../screens/PostDairyScreen';
+import SettingWriterScreen from '../screens/SettingWriterScreen';
 import { RootMainStackParamList } from '../types';
 
 const MainStack = createNativeStackNavigator<RootMainStackParamList>();
@@ -58,12 +67,33 @@ function DrawerNavigator() {
           drawerLabel: '알람 설정',
         }}
       />
+      <Drawer.Screen
+        name='SettingWriter'
+        component={SettingWriterScreen}
+        options={{
+          drawerLabel: '필명 설정',
+        }}
+      />
     </Drawer.Navigator>
   );
 }
 
 // Main
 export default function MainNavigator() {
+  const [commonAtom, setCommonAtom] = useRecoilState(commonAtomState);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCommonAtom({
+        isMainLoading: false,
+      });
+    }, LOADING_TIME);
+  }, []);
+
+  if (commonAtom.isMainLoading) {
+    return <ModalMainLoadingScreen />;
+  }
+
   return (
     <MainStack.Navigator
       initialRouteName='MainDraw'
@@ -81,6 +111,19 @@ export default function MainNavigator() {
         <MainStack.Screen name='Modal' component={ModalScreen} />
         {/* <MainStack.Screen name='Web' component={WebViewScreen} /> */}
       </MainStack.Group>
+      <MainStack.Group
+        screenOptions={{
+          presentation: 'fullScreenModal',
+          headerShown: false,
+          animation: 'none',
+        }}>
+        <MainStack.Screen name='ModalLoading' component={ModalScreen} />
+        <MainStack.Screen
+          name='ModalLoadingPost'
+          component={ModalLoadingScreen}
+        />
+        {/* <MainStack.Screen name='Web' component={WebViewScreen} /> */}
+      </MainStack.Group>
       {/* 2. Main Draw */}
       <MainStack.Screen
         name='MainDraw'
@@ -94,6 +137,8 @@ export default function MainNavigator() {
           presentation: 'card',
         }}>
         <MainStack.Screen name='PostDairy' component={PostDairyScreen} />
+        <MainStack.Screen name='NewFilm' component={NewFilmScreen} />
+        <MainStack.Screen name='NotiSetting' component={NotiSettingScreen} />
       </MainStack.Group>
     </MainStack.Navigator>
   );

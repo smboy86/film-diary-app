@@ -11,7 +11,7 @@ export default function RootNavigator() {
   const ttt = useRecoilValue(exampleWithParens);
 
   useEffect(() => {
-    console.log('asdfasdfsd   ', ttt);
+    console.log('Root useRecoilValue   ', ttt);
   }, []);
 
   // 로그인 처리

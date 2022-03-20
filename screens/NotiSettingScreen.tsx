@@ -1,13 +1,13 @@
 import { Feather, Fontisto } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Image, ScrollView, Text } from 'native-base';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { Alert } from 'react-native';
 import { Box, BoxPressable } from '../components/basic';
 import Images from '../constants/Images';
 import Layout from '../constants/Layout';
 
-export default function HomeScreen() {
+export default function NotiSettingScreen() {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -27,9 +27,8 @@ export default function HomeScreen() {
       }}>
       <Box wFull row aCenter pv={30}>
         <Text fontSize={'3xl'} mr={2}>
-          List
+          알림 설정
         </Text>
-        <Fontisto name='film' size={30} />
       </Box>
       <BoxPressable onPress={() => navigation.navigate('PostDairy')} aCenter>
         <Box wFull pb={12}>
@@ -47,7 +46,7 @@ export default function HomeScreen() {
         </Box>
       </BoxPressable>
       <BoxPressable
-        onPress={() => navigation.navigate('PostDairy')}
+        onPress={() => Alert.alert('', '필름통 보기')}
         aCenter
         mt={20}>
         <Box wFull pb={12}>

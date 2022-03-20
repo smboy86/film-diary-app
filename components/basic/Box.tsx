@@ -18,8 +18,8 @@ interface IProps extends ViewProps {
   height?: number;
   pd?: number;
   pv?: number;
-  ph?: number;
-  pt?: number;
+  ph?: number | string;
+  pt?: number | string;
   pb?: number;
   pl?: number;
   pr?: number;
