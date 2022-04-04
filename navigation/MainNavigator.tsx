@@ -46,20 +46,21 @@ function DrawerNavigator() {
           drawerLabel: '대시보드 홈',
         }}
       />
-      <Drawer.Screen
+      {/* 미구현 */}
+      {/* <Drawer.Screen
         name='History'
         component={HistoryScreen}
         options={{
           drawerLabel: '기록 날짜 확인하기',
         }}
-      />
-      <Drawer.Screen
+      /> */}
+      {/* <Drawer.Screen
         name='CheckFilm'
         component={CheckFilmScreen}
         options={{
           drawerLabel: '현상된 필름',
         }}
-      />
+      /> */}
       <Drawer.Screen
         name='SettingNoti'
         component={SettingNotiScreen}

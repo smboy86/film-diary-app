@@ -35,6 +35,7 @@ import {
 export type RootAuthStackParamList = {
   Login: undefined;
   Join: undefined;
+  SearchPasswrd: undefined;
 };
 
 // 1-2. Root - Main(Draw + Stack)
@@ -51,6 +52,7 @@ export type RootMainStackParamList = {
   // 3. Detail Screen
   PostDairy: undefined;
   NewFilm: undefined;
+  NotiSetting: undefined;
 };
 
 // 1-2-1 Draw
@@ -67,12 +69,13 @@ export type MainDrawParamList = {
 
 // useNavigation 만 쓴다고 하면 필요 없는건가?
 // ScreenProp vs RouteProp vs NavigationProp 뭐가 다른가?
+// ScreenProp ?? 어디다 쓰는지 모름
 // RouteProp -> useRoute 할때 쓰임
 // NavigationProp -> useNavigation 에 쓰임
 // // 2-1. Root - AuthStack Prop(ScreenProp)
 export type RootAuthStackScreenProps<
   Screen extends keyof RootAuthStackParamList
-> = NativeStackScreenProps<RootAuthStackParamList, Screen>;
+> = NativeStackNavigationProp<RootAuthStackParamList, Screen>;
 
 // 2-2-1. Root - Main Prop (ScreenProp)
 export type RootMainScreenProps<Screen extends keyof RootMainStackParamList> =

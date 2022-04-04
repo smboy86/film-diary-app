@@ -1,4 +1,5 @@
 import { Entypo, Feather, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { Button, Text, Input, Icon } from 'native-base';
 import { Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,9 +8,11 @@ import { Box, BoxPressable } from '../components/basic';
 import { pxToDp } from '../constants/Layout';
 
 import authAtomState from '../recoil/auth/authAtomState';
+import { RootAuthStackScreenProps } from '../types';
 
 export default function LoginScreen() {
   const setAuth = useSetRecoilState(authAtomState);
+  const navigation = useNavigation<RootAuthStackScreenProps<'Login'>>();
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -57,10 +60,11 @@ export default function LoginScreen() {
               기록하기
             </Button>
             <Box row space pt={20} ph={20}>
-              <BoxPressable onPress={() => Alert.alert('', '비밀번호 찾기')}>
+              <BoxPressable
+                onPress={() => navigation.navigate('SearchPasswrd')}>
                 <Text>비밀번호 찾기</Text>
               </BoxPressable>
-              <BoxPressable onPress={() => Alert.alert('', '회원가입')}>
+              <BoxPressable onPress={() => navigation.navigate('Join')}>
                 <Text>회원가입</Text>
               </BoxPressable>
             </Box>
