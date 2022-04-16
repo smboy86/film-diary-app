@@ -4,6 +4,8 @@ import { AlertDialog, Button, Image, Input, Text } from 'native-base';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import { useRecoilState } from 'recoil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { Box, BoxPressable } from '../components/basic';
 import Images from '../constants/Images';
 import authAtomState from '../recoil/auth/authAtomState';
@@ -29,13 +31,21 @@ export default function SettingWriterScreen() {
 
   const onClose = () => setIsOpen(false);
 
-  const onLogout = () => {
-    setCommonAtom({
-      isMainLoading: true,
-    }),
+  const onLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('@loginUserId');
+
       setAuthAtom({
         isLogin: false,
+        userId: '9999',
       });
+
+      setCommonAtom({
+        isMainLoading: true,
+      });
+    } catch (error) {
+      console.log('errr :: ', error);
+    }
   };
 
   return (

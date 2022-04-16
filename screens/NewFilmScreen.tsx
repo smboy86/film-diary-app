@@ -1,27 +1,84 @@
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import dayjs from 'dayjs';
-import { Divider, Image, Input, ScrollView, Text, TextArea } from 'native-base';
-import { useLayoutEffect } from 'react';
-import { Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Divider, Image, Text } from 'native-base';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { Alert, DeviceEventEmitter } from 'react-native';
 import { Box, BoxPressable } from '../components/basic';
-import { RootMainNavigateProps } from '../types';
-import Images from '../constants/Images';
+import { RootMainNavigateProps, RootMainRouteProps } from '../types';
 import Swiper from 'react-native-swiper';
+import ApiFilm from '../api/film';
+import { useRecoilState } from 'recoil';
+import authAtomState from '../recoil/auth/authAtomState';
 
 export default function NewFilmScreen() {
+  const [filmList, setFilmList] = useState([]);
+  const [curIndex, setCurIndex] = useState(0);
+
   const navigation = useNavigation<RootMainNavigateProps<'PostDairy'>>();
+  const route = useRoute<RootMainRouteProps<'NewFilm'>>();
+  const [authAtom, setAuthAtom] = useRecoilState(authAtomState);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '새 필름 생성',
       headerRight: (props: any) => (
-        <BoxPressable onPress={() => Alert.alert('', '저장하기')} pr={12}>
+        <BoxPressable onPress={selectFilm} pr={12}>
           <Feather name='film' size={24} color={props.tintColor} />
         </BoxPressable>
       ),
     });
-  }, [navigation]);
+  }, [navigation, curIndex]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const result = await ApiFilm.getAllFilmList();
+        // console.log('asdfdasf :: ', result);
+        setFilmList(result.data);
+      } catch (error) {}
+    }
+
+    getData();
+
+    return () => {
+      DeviceEventEmitter.emit('home');
+    };
+  }, []);
+
+  const selectFilm = () => {
+    Alert.alert(
+      '필름',
+      '필름을 생성하시겠습니까?',
+      [
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+        {
+          text: '확인',
+          onPress: async () => {
+            try {
+              const result = await ApiFilm.createMyFilm({
+                filmIndex: route.params.lastFilmIndex + 1,
+                filmName: '임시 필름22',
+                filmId: filmList[curIndex]['id'],
+                userId: authAtom.userId,
+              });
+
+              Alert.alert('', '새로운 필름이 생성되었습니다.');
+            } catch (error) {
+              Alert.alert('오류', error.message);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  if (filmList.length <= 0) {
+    return null;
+  }
 
   return (
     <Box full>
@@ -32,26 +89,32 @@ export default function NewFilmScreen() {
         </Box>
       </Box>
       <Box full center>
-        <Box height={250}>
-          <Swiper>
-            <Box center>
-              <Image source={Images.imgFilmBox} size={168} alt='img film box' />
-              <Text>1번 필름</Text>
-            </Box>
-            <Box center>
-              <Image source={Images.imgFilmBox} size={168} alt='img film box' />
-              <Text>2번 필름</Text>
-            </Box>
-            <Box center>
-              <Image source={Images.imgFilmBox} size={168} alt='img film box' />
-              <Text>3번 필름</Text>
-            </Box>
-          </Swiper>
-        </Box>
-        <Box>
-          <Text mt={2}>필름명:</Text>
-          <Text mt={4}>필름 수 : (24,36,48,60)</Text>
-        </Box>
+        <Swiper
+          loop={false}
+          onIndexChanged={(idx) => {
+            setCurIndex(idx);
+          }}>
+          {filmList.map((item, idx) => {
+            return (
+              <BoxPressable
+                onPress={() => null}
+                height={250}
+                key={idx.toString()}>
+                <Box center mt={140}>
+                  <Image
+                    source={{ uri: item.image }}
+                    size={168}
+                    alt='img film box'
+                  />
+                </Box>
+                <Box center mt={30}>
+                  <Text mt={2}>필름명: {item.name}</Text>
+                  <Text mt={4}>필름 수 : ({item.maxSize})</Text>
+                </Box>
+              </BoxPressable>
+            );
+          })}
+        </Swiper>
       </Box>
     </Box>
   );

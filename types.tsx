@@ -53,7 +53,9 @@ export type RootMainStackParamList = {
   PostDairy: {
     myFilmId: string;
   };
-  NewFilm: undefined;
+  NewFilm: {
+    lastFilmIndex: number;
+  };
   NotiSetting: undefined;
 };
 

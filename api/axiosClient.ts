@@ -6,8 +6,8 @@ import axios from 'axios';
     https://github.com/axios/axios 의 Request Config 챕터 확인
 */
 const axiosClient = axios.create({
-  // baseURL: 'http://api.devpoi.com',
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://api.devpoi.com',
+  // baseURL: 'http://localhost:3000',
   timeout: 1000,
   // 해커 뉴스 API는 커스텀 헤더 넣으면 CORS걸려서 주석처리했습니다.
   // headers: {'X-Custom-Header': 'foobar'}

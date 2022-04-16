@@ -4,6 +4,7 @@ import { Button, Text, Input, Icon, AlertDialog } from 'native-base';
 import { useRef, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSetRecoilState } from 'recoil';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Box, BoxPressable } from '../components/basic';
 import { pxToDp } from '../constants/Layout';
@@ -26,6 +27,8 @@ export default function LoginScreen() {
         email: email,
         password: pw,
       });
+
+      await AsyncStorage.setItem('@loginUserId', result.data.userId.toString());
 
       setAuth({ isLogin: true, userId: result.data.userId });
     } catch (error) {

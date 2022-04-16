@@ -18,12 +18,18 @@ export default function HomeScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: (props: any) => (
-        <BoxPressable onPress={() => navigation.navigate('NewFilm')} pr={12}>
+        <BoxPressable
+          onPress={() =>
+            navigation.navigate('NewFilm', {
+              lastFilmIndex: filmList.length,
+            })
+          }
+          pr={12}>
           <Feather name='film' size={24} color={props.tintColor} />
         </BoxPressable>
       ),
     });
-  }, [navigation]);
+  }, [navigation, filmList]);
 
   useEffect(() => {
     async function getData() {
