@@ -48,7 +48,7 @@ axiosClient.interceptors.response.use(
         응답 바로 직전에 대해 작성합니다. 
         .then() 으로 이어집니다.
     */
-    return response;
+    return response.data;
   },
 
   function (error) {

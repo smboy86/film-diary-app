@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const rootUrl = 'auth';
 
-export default {
+const ApiAuth = {
   // 로그인
   login({ email, password }: { email: string; password: string }) {
     return axiosClient({
@@ -24,3 +24,5 @@ export default {
     });
   },
 };
+
+export default ApiAuth;

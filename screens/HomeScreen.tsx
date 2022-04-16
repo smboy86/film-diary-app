@@ -2,13 +2,17 @@ import { Feather, Fontisto } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Image, ScrollView, Text } from 'native-base';
 import { useEffect, useLayoutEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { useRecoilState } from 'recoil';
+import ApiFilm from '../api/film';
 import { Box, BoxPressable } from '../components/basic';
-import Images from '../constants/Images';
 import Layout from '../constants/Layout';
+import authAtomState from '../recoil/auth/authAtomState';
 
 export default function HomeScreen() {
+  const [filmList, setFilmList] = useState([]);
+
   const navigation = useNavigation();
+  const [authAtom, setAuthAtom] = useRecoilState(authAtomState);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -19,6 +23,17 @@ export default function HomeScreen() {
       ),
     });
   }, [navigation]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const result = await ApiFilm.getMyFilmList(authAtom.userId);
+        setFilmList(result.data);
+      } catch (error) {}
+    }
+
+    getData();
+  }, []);
 
   return (
     <ScrollView
@@ -31,39 +46,36 @@ export default function HomeScreen() {
         </Text>
         <Fontisto name='film' size={30} />
       </Box>
-      <BoxPressable onPress={() => navigation.navigate('PostDairy')} aCenter>
-        <Box wFull pb={12}>
-          <Text fontSize={18}>1번 필름</Text>
+      {filmList.length <= 0 ? (
+        <Box>
+          <Text>나의 필름이 없습니다.</Text>
         </Box>
-        <Image
-          source={Images.imgA}
-          width={Layout.screen.width * 0.924}
-          height={Layout.screen.width * 0.582}
-          alt='img'
-        />
-        <Box wFull row space mt={10}>
-          <Fontisto name='film' size={20} />
-          <Text>(10/36)</Text>
-        </Box>
-      </BoxPressable>
-      <BoxPressable
-        onPress={() => navigation.navigate('PostDairy')}
-        aCenter
-        mt={20}>
-        <Box wFull pb={12}>
-          <Text fontSize={18}>2번 필름</Text>
-        </Box>
-        <Image
-          source={Images.imgB}
-          width={Layout.screen.width * 0.924}
-          height={Layout.screen.width * 0.582}
-          alt='img'
-        />
-        <Box wFull row space mt={10}>
-          <Fontisto name='film' size={20} />
-          <Text>(10/36)</Text>
-        </Box>
-      </BoxPressable>
+      ) : (
+        filmList.map((item, idx) => {
+          return (
+            <BoxPressable
+              key={idx.toString()}
+              onPress={() => navigation.navigate('PostDairy')}
+              aCenter>
+              <Box wFull pb={12}>
+                <Text fontSize={18}>{item.film.name}</Text>
+              </Box>
+              <Image
+                source={{ uri: item.film.image }}
+                width={Layout.screen.width * 0.924}
+                height={Layout.screen.width * 0.582}
+                alt='img'
+              />
+              <Box wFull row space mt={10}>
+                <Fontisto name='film' size={20} />
+                <Text>
+                  ({item.dairy.length}/{item.film.maxSize})
+                </Text>
+              </Box>
+            </BoxPressable>
+          );
+        })
+      )}
     </ScrollView>
   );
 }

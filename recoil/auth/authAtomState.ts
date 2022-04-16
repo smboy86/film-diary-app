@@ -4,6 +4,7 @@ const authAtomState = atom({
   key: 'authAtomState',
   default: {
     isLogin: false,
+    userId: '',
   },
 });
 

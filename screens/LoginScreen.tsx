@@ -22,12 +22,12 @@ export default function LoginScreen() {
 
   const login = async () => {
     try {
-      const ttt = await ApiAuth.login({
+      const result = await ApiAuth.login({
         email: email,
         password: pw,
       });
 
-      setAuth({ isLogin: true });
+      setAuth({ isLogin: true, userId: result.data.userId });
     } catch (error) {
       console.log('fail..   :: ', error);
       setIsOpen(true);
