@@ -2,6 +2,7 @@ import { Feather, Fontisto } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Image, ScrollView, Text } from 'native-base';
 import { useEffect, useLayoutEffect, useState } from 'react';
+import { DeviceEventEmitter } from 'react-native';
 import { useRecoilState } from 'recoil';
 import ApiFilm from '../api/film';
 import { Box, BoxPressable } from '../components/basic';
@@ -32,6 +33,10 @@ export default function HomeScreen() {
       } catch (error) {}
     }
 
+    DeviceEventEmitter.addListener('home', () => {
+      getData();
+    });
+
     getData();
   }, []);
 
@@ -52,13 +57,18 @@ export default function HomeScreen() {
         </Box>
       ) : (
         filmList.map((item, idx) => {
+          // console.log('ddfsdf ', item);
           return (
             <BoxPressable
               key={idx.toString()}
-              onPress={() => navigation.navigate('PostDairy')}
+              onPress={() =>
+                navigation.navigate('PostDairy', {
+                  myFilmId: item.id,
+                })
+              }
               aCenter>
               <Box wFull pb={12}>
-                <Text fontSize={18}>{item.film.name}</Text>
+                <Text fontSize={18}>{item.filmName}</Text>
               </Box>
               <Image
                 source={{ uri: item.film.image }}

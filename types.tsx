@@ -50,7 +50,9 @@ export type RootMainStackParamList = {
   // 2. Main
   MainDraw: NavigatorScreenParams<MainDrawParamList> | undefined;
   // 3. Detail Screen
-  PostDairy: undefined;
+  PostDairy: {
+    myFilmId: string;
+  };
   NewFilm: undefined;
   NotiSetting: undefined;
 };
@@ -89,6 +91,9 @@ export type RootMainNavigateProps<Screen extends keyof RootMainStackParamList> =
     DrawerNavigationProp<RootMainStackParamList, Screen>,
     NativeStackNavigationProp<RootMainStackParamList>
   >;
+// Root Main RouteProp
+export type RootMainRouteProps<Screen extends keyof RootMainStackParamList> =
+  RouteProp<RootMainStackParamList, Screen>;
 
 // 2-2-2. Root - Draw (ScreenProp)
 // export type MainDrawScreenProps<Screen extends keyof MainDrawParamList> =

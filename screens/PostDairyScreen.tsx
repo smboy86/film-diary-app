@@ -1,45 +1,82 @@
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { Image, Input, ScrollView, Text, TextArea } from 'native-base';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { Box, BoxPressable } from '../components/basic';
-import { RootMainNavigateProps } from '../types';
-import IcoCamera from '../assets/svgs/IcoCamera.svg';
+import { RootMainNavigateProps, RootMainRouteProps } from '../types';
 import Images from '../constants/Images';
+import ApiDairy from '../api/dairy';
+import { useRecoilState } from 'recoil';
+import authAtomState from '../recoil/auth/authAtomState';
 
 export default function PostDairyScreen() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
   const navigation = useNavigation<RootMainNavigateProps<'PostDairy'>>();
+  const route = useRoute<RootMainRouteProps<'PostDairy'>>();
+
+  const [authAtom, setAuthAtom] = useRecoilState(authAtomState);
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerTitle: dayjs(new Date()).format('YYYY. MM. DD'),
       headerRight: (props: any) => (
-        // <BoxPressable onPress={() => Alert.alert('', '저장하기')} pr={12}>
-        <BoxPressable
-          onPress={() =>
-            navigation.navigate('ModalLoadingPost', {
-              nextScreen: 'Home',
-            })
-          }
-          pr={12}>
+        <BoxPressable onPress={() => writeDairy()} pr={12}>
           <Feather name='save' size={24} color={props.tintColor} />
         </BoxPressable>
       ),
-      headerTitle: dayjs(new Date()).format('YYYY. MM. DD'),
       headerTitleStyle: {
         // 작동 안됨
         textDecorationLine: 'underline',
       },
     });
-  }, [navigation]);
+  }, [navigation, title, content]);
+
+  const writeDairy = async () => {
+    try {
+      console.log(
+        'asdfasdf ',
+        title,
+        content,
+        authAtom.userId,
+        route.params.myFilmId
+      );
+
+      const result = await ApiDairy.writeDairy({
+        title: title,
+        content: content,
+        userId: authAtom.userId,
+        myFilmId: route.params.myFilmId,
+      });
+
+      navigation.navigate('ModalLoadingPost', {
+        nextScreen: 'Home',
+      });
+    } catch (error) {
+      console.log('fail..   :: ', error);
+      Alert.alert('오류', error.error);
+      // setIsOpen(true);
+    }
+  };
 
   return (
     <Box full>
       <Box ph={16} pt={16} full>
-        <Input w={'100%'} mb={4} placeholder='제목' fontSize={20} />
+        <Input
+          value={title}
+          onChangeText={(text) => setTitle(text)}
+          w={'100%'}
+          mb={4}
+          placeholder='제목'
+          fontSize={20}
+        />
         <ScrollView height={'full'}>
           <TextArea
+            value={content}
+            onChangeText={(text) => setContent(text)}
             w='full'
             h={'full'}
             variant={'unstyled'}
