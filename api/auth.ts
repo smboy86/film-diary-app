@@ -6,7 +6,6 @@ const ApiAuth = {
   // 로그인
   login({ email, password }: { email: string; password: string }) {
     return axiosClient({
-      // baseURL설정되어 있기 때문에 그 뒤의 URL만 작성합니다.
       url: `/${rootUrl}/login`,
       method: 'post',
       data: {
@@ -18,9 +17,26 @@ const ApiAuth = {
   // 이메일로 사용자 찾기
   getUserByEmail(email: string) {
     return axiosClient({
-      // baseURL설정되어 있기 때문에 그 뒤의 URL만 작성합니다.
       url: `/${rootUrl}/user/${email}`,
       method: 'get',
+    });
+  },
+  // 회원가입
+  join(data: {
+    email: string;
+    name: string;
+    password: string;
+    passwordConfirm: string;
+    agreeTermPrivacy: boolean;
+  }) {
+    return axiosClient({
+      url: `/${rootUrl}/join`,
+      method: 'post',
+      data: {
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      },
     });
   },
 };
