@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { ThemeProvider } from 'react-native-elements';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
 import RootNavigator from './navigation/RootNavigator';
 
 import 'react-native-gesture-handler';
@@ -96,7 +94,6 @@ const nativeBaseTheme = extendTheme({
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
 
   if (!isLoadingComplete) {
     return null;
