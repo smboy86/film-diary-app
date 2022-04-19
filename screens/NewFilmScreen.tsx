@@ -58,9 +58,10 @@ export default function NewFilmScreen() {
           text: '확인',
           onPress: async () => {
             try {
+              console.log('asdfasdf :: ', filmList);
               const result = await ApiFilm.createMyFilm({
                 filmIndex: route.params.lastFilmIndex + 1,
-                filmName: '임시 필름22',
+                filmName: filmList[curIndex]['name'],
                 filmId: filmList[curIndex]['id'],
                 userId: authAtom.userId,
               });
@@ -68,6 +69,13 @@ export default function NewFilmScreen() {
               Alert.alert('', '새로운 필름이 생성되었습니다.');
             } catch (error) {
               Alert.alert('오류', error.message);
+              // console.log('data :: ', {
+              //   filmIndex: route.params.lastFilmIndex + 1,
+              //   filmName: '임시 필름22',
+              //   filmId: filmList[curIndex]['id'],
+              //   userId: authAtom.userId,
+              // });
+              console.log('errr :: ', error);
             }
           },
         },
