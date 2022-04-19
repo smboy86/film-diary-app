@@ -81,6 +81,7 @@ export default function HomeScreen() {
                 width={Layout.screen.width * 0.924}
                 height={Layout.screen.width * 0.582}
                 alt='img'
+                borderRadius={8}
               />
               <Box wFull row space mt={10}>
                 <Fontisto name='film' size={20} />
