@@ -88,6 +88,7 @@ const nativeBaseTheme = extendTheme({
       },
       defaultProps: {
         variant: 'underlined',
+        autoCapitalize: 'none',
       },
     },
   },
