@@ -28,6 +28,7 @@ export default function LoginScreen() {
         password: pw,
       });
 
+      await AsyncStorage.setItem('@loginUserEmmail', email);
       await AsyncStorage.setItem('@loginUserId', result.data.userId.toString());
 
       setAuth({ isLogin: true, userId: result.data.userId });

@@ -39,6 +39,17 @@ const ApiAuth = {
       },
     });
   },
+  // 회원정보 수정(필명)
+  modName({ id, name }: { id: string; name: string }) {
+    return axiosClient({
+      url: `/${rootUrl}/profile`,
+      method: 'patch',
+      data: {
+        id,
+        name,
+      },
+    });
+  },
 };
 
 export default ApiAuth;

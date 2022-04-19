@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { AlertDialog, Button, Image, Input, Text } from 'native-base';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import { useRecoilState } from 'recoil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,8 +10,10 @@ import { Box, BoxPressable } from '../components/basic';
 import Images from '../constants/Images';
 import authAtomState from '../recoil/auth/authAtomState';
 import commonAtomState from '../recoil/common/commonAtomState';
+import ApiAuth from '../api/auth';
 
 export default function SettingWriterScreen() {
+  const [name, setName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const cancelRef = useRef(null);
@@ -22,12 +24,37 @@ export default function SettingWriterScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: (props: any) => (
-        <BoxPressable onPress={() => Alert.alert('', '저장하기')} pr={12}>
+        <BoxPressable onPress={saveName} pr={12}>
           <Feather name='save' size={24} color={props.tintColor} />
         </BoxPressable>
       ),
     });
-  }, [navigation]);
+  }, [navigation, name]);
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const email = await AsyncStorage.getItem('@loginUserEmmail');
+        if (email) {
+          const result = await ApiAuth.getUserByEmail(email);
+          setName(result.data.name);
+        }
+      } catch (error) {}
+    }
+
+    getData();
+  }, []);
+
+  const saveName = async () => {
+    try {
+      const result = await ApiAuth.modName({ id: authAtom.userId, name: name });
+      if (result) {
+        Alert.alert('', '필명이 수정되었습니다.');
+      }
+    } catch (error) {
+      Alert.alert('', '프로필 업데이트 오류');
+    }
+  };
 
   const onClose = () => setIsOpen(false);
 
@@ -93,7 +120,12 @@ export default function SettingWriterScreen() {
         <Text fontSize={'md'} mt={6}>
           필명
         </Text>
-        <Input w={'80%'} placeholder='필명' />
+        <Input
+          value={name}
+          onChangeText={(text) => setName(text)}
+          w={'80%'}
+          placeholder='필명'
+        />
       </Box>
       <Box full center pt={'55%'}>
         <BoxPressable onPress={() => setIsOpen(true)}>
