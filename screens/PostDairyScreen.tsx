@@ -36,15 +36,15 @@ export default function PostDairyScreen() {
   }, [navigation, title, content]);
 
   const writeDairy = async () => {
+    if (title === '') {
+      Alert.alert('', '제목을 입력해주세요.');
+      return;
+    }
+    if (content === '') {
+      Alert.alert('', '내용을 입력해주세요.');
+      return;
+    }
     try {
-      console.log(
-        'asdfasdf ',
-        title,
-        content,
-        authAtom.userId,
-        route.params.myFilmId
-      );
-
       const result = await ApiDairy.writeDairy({
         title: title,
         content: content,
