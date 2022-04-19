@@ -106,6 +106,7 @@ export default function NewFilmScreen() {
                     source={{ uri: item.image }}
                     size={168}
                     alt='img film box'
+                    borderRadius={8}
                   />
                 </Box>
                 <Box center mt={30}>
